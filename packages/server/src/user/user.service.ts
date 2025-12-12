@@ -15,6 +15,11 @@ class UserServiceClass {
       name: 'Guille',
       folder: 'g_data',
     },
+    {
+      id: '2',
+      name: 'Bonnie',
+      folder: 'b_data',
+    },
   ];
 
   async getUsers() {

@@ -3,15 +3,12 @@ WORKDIR /app
 
 RUN corepack enable
 
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY . .
 
 RUN yarn install
 
-
 FROM deps AS build
 WORKDIR /app
-
-COPY . .
 
 RUN yarn workspace @epigraph/client build
 RUN yarn workspace @epigraph/server build

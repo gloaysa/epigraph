@@ -12,6 +12,3 @@ services:
     volumes:
       - /mnt/public/books:/data/books:ro
     restart: unless-stopped
-    volumes:
-      - /mnt/public/books:/data/books:ro
-    restart: unless-stopped

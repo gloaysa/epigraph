@@ -1,8 +1,6 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  epigraph:
+    image: ghcr.io/gloaysa/epigraph:latest
     environment:
       NODE_ENV: production
       PORT: "3003"

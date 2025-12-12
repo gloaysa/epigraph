@@ -59,16 +59,14 @@ export const BookDetailPage = () => {
           {book.title}
         </Text>
 
-        {book.authors.map((author) => (
-          <Text
-            className='book-detail__author'
-            size='sm'
-            c='dimmed'
-            ta='left'
-          >
-            {author}
-          </Text>
-        ))}
+        <Text
+          className='book-detail__author'
+          size='sm'
+          c='dimmed'
+          ta='left'
+        >
+          {book.authors.join(', ')}
+        </Text>
 
         <Text
           className='book-detail__summary'
@@ -134,7 +132,7 @@ export const BookDetailPage = () => {
                       variant='subtle'
                       onClick={(e) => {
                         e.stopPropagation();
-                        copyCitationToClipboard(entry.text, book.authors.join(','), book.title);
+                        copyCitationToClipboard(entry.text, book.authors.join(', '), book.title);
                       }}
                     >
                       <span className='flex gap-2'>

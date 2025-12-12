@@ -44,15 +44,14 @@ export const BookListItem = ({ book, onSelect }: BookItemProps) => {
             >
               {book.title}
             </Text>
-            {book.authors.map((author) => (
-              <Text
-                className='book-item__author'
-                size='xs'
-                c='dimmed'
-              >
-                {author}
-              </Text>
-            ))}
+            <Text
+              className='book-detail__author'
+              size='sm'
+              c='dimmed'
+              ta='left'
+            >
+              {book.authors.join(', ')}
+            </Text>
           </Stack>
 
           <Group

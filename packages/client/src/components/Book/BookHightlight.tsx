@@ -1,4 +1,4 @@
-import { Blockquote, Paper, Stack, Text, ThemeIcon, Group } from '@mantine/core';
+import { Blockquote, Stack, Text, ThemeIcon, Group } from '@mantine/core';
 import type { IBook, IEntry } from '../../interfaces/book.interface';
 import { useMemo } from 'react';
 import { SelectableIcon } from '../SelectableIcon';
@@ -42,79 +42,72 @@ export const BookHighlight = ({ book, entry }: BookHighlightProps) => {
   const highlightColor = useMemo(() => getHighlightColor(entry.color), [entry.color]);
 
   return (
-    <Paper
-      className='highlight-card'
-      withBorder
-      radius='lg'
-      p='xl'
-      shadow='sm'
+    <Stack
+      className='highlight-card__body'
+      gap='sm'
+      align='flex-start'
+      w='100%'
+      p='lg'
     >
-      <Stack
-        className='highlight-card__content'
-        gap='lg'
-        h='100%'
-        justify='space-between'
-        align='flex-start'
-      >
-        <Stack
-          className='highlight-card__body'
-          gap='sm'
-          align='flex-start'
-          w='100%'
-        >
-          <Blockquote
-            className='highlight-card__quote'
+      <Blockquote
+        className='highlight-card__quote'
+        color={highlightColor}
+        radius='md'
+        cite={`${book.title} - ${book.authors.join(',')}`}
+        icon={
+          <ThemeIcon
+            className='highlight-card__quote-icon'
             color={highlightColor}
-            radius='md'
-            cite={`${book.title} - ${book.authors.join(',')}`}
-            icon={
-              <ThemeIcon
-                className='highlight-card__quote-icon'
-                color={highlightColor}
-                radius='xl'
-                size='xl'
-              >
-                <SelectableIcon />
-              </ThemeIcon>
-            }
+            radius='xl'
+            size='xl'
           >
-            {entry.text}
-          </Blockquote>
+            <SelectableIcon />
+          </ThemeIcon>
+        }
+      >
+        <Text
+          className='book-detail__entry-quote'
+          size='sm'
+          fw={500}
+          lh={1.6}
+          ta='left'
+        >
+          “{entry.text}”
+        </Text>
+      </Blockquote>
 
-          {entry.note && (
-            <Stack
-              className='highlight-card__note-block'
-              gap={2}
-              align='flex-start'
+      {entry.note && (
+        <Stack
+          className='highlight-card__note-block'
+          gap={2}
+          align='flex-start'
+        >
+          <Group
+            className='highlight-card__note-header'
+            gap={6}
+            align='center'
+          >
+            <Text
+              className='highlight-card__note-label'
+              size='xs'
+              c='dimmed'
+              tt='uppercase'
+              fw={500}
             >
-              <Group
-                className='highlight-card__note-header'
-                gap={6}
-                align='center'
-              >
-                <Text
-                  className='highlight-card__note-label'
-                  size='xs'
-                  c='dimmed'
-                  tt='uppercase'
-                  fw={500}
-                >
-                  Note
-                </Text>
-              </Group>
+              Note
+            </Text>
+          </Group>
 
-              <Text
-                className='highlight-card__note'
-                size='sm'
-                c='dimmed'
-                fs='italic'
-              >
-                {entry.note}
-              </Text>
-            </Stack>
-          )}
+          <Text
+            className='highlight-card__note'
+            size='sm'
+            c='dimmed'
+            fs='italic'
+          >
+            {entry.note}
+          </Text>
         </Stack>
-      </Stack>
-    </Paper>
+      )}
+    </Stack>
   );
 };

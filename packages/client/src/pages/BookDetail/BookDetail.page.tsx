@@ -1,8 +1,9 @@
-import { Button, Group, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
+import { Button, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useLocation, useParams } from 'wouter';
 import { ErrorComponent, LoadingComponent, NoBooksFound } from '../../components/Book/BookStatus';
 import type { IBook, IEntry } from '../../interfaces/book.interface';
 import { useGetBookById, useRefreshBooks } from '@/hooks/book.queries';
+import { copyCitationToClipboard } from '@/utils/copy-to-clipboard';
 
 export const BookDetailPage = () => {
   const [, setLocation] = useLocation();
@@ -107,28 +108,41 @@ export const BookDetailPage = () => {
                 gap='xs'
                 align='flex-start'
               >
-                <Group
-                  className='book-detail__entry-meta'
-                  gap='sm'
-                  align='center'
-                >
-                  <Text
-                    className='book-detail__entry-chapter'
-                    size='xs'
-                    c='dimmed'
-                    ta='left'
-                  >
-                    {entry.chapter}
-                  </Text>
-                  <Text
-                    className='book-detail__entry-page'
-                    size='xs'
-                    c='dimmed'
-                    ta='left'
-                  >
-                    Page {entry.page}
-                  </Text>
-                </Group>
+                <div className='book-detail__entry-meta flex gap-2 w-full align-items-center justify-content-between'>
+                  <div className='flex gap-2'>
+                    <Text
+                      className='book-detail__entry-chapter'
+                      size='xs'
+                      c='dimmed'
+                      ta='left'
+                    >
+                      {entry.chapter}
+                    </Text>
+                    <Text
+                      className='book-detail__entry-page'
+                      size='xs'
+                      c='dimmed'
+                      ta='left'
+                    >
+                      Page {entry.page}
+                    </Text>
+                  </div>
+
+                  <div className='flex gap-2'>
+                    <Button
+                      size='xs'
+                      variant='subtle'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyCitationToClipboard(entry.text, book.authors.join(','), book.title);
+                      }}
+                    >
+                      <span className='flex gap-2'>
+                        <span>📋</span>
+                      </span>
+                    </Button>
+                  </div>
+                </div>
 
                 <Text
                   className='book-detail__entry-quote'
@@ -140,32 +154,14 @@ export const BookDetailPage = () => {
                   “{entry.text}”
                 </Text>
 
-                {entry.note && (
-                  <Stack
-                    className='book-detail__entry-note-block'
-                    gap={2}
-                    align='flex-start'
+                {!!entry.note && (
+                  <Text
+                    className='book-item__chip book-item__chip--notes'
+                    size='xs'
+                    variant='outline'
                   >
-                    <Text
-                      className='book-detail__entry-note-label'
-                      size='xs'
-                      c='dimmed'
-                      tt='uppercase'
-                      fw={500}
-                      ta='left'
-                    >
-                      Note
-                    </Text>
-                    <Text
-                      className='book-detail__entry-note'
-                      size='xs'
-                      c='dimmed'
-                      fs='italic'
-                      ta='left'
-                    >
-                      {entry.note}
-                    </Text>
-                  </Stack>
+                    🗒️
+                  </Text>
                 )}
               </Stack>
             </Paper>

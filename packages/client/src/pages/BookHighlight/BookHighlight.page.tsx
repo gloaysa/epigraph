@@ -22,7 +22,7 @@ export const BookHighlightPage = () => {
   }
 
   return (
-    <Center p='xl'>
+    <Center>
       <BookHighlight
         book={book}
         entry={entry}

@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "3003"
+      BOOKS_FOLDER: /data/books
+    ports:
+      - "3003:3003"
+    volumes:
+      - /mnt/public/books:/data/books:ro
+    restart: unless-stopped
+    volumes:
+      - /mnt/public/books:/data/books:ro
+    restart: unless-stopped

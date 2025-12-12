@@ -1,0 +1,14 @@
+.highlight-card {
+  min-width: 400px;
+  max-width: 560px;
+
+  /* On small screens, let it shrink */
+  @media (max-width: 480px) {
+    min-width: 0;
+    width: 100%;
+  }
+  .highlight-card__quote {
+    width: 100%;
+    white-space: pre-line;
+  }
+}

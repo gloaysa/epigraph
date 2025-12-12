@@ -34,8 +34,7 @@ export interface IBook {
   title: string;
   number_of_pages: string;
 
-  /** Book author string; may contain multiple authors separated by newlines. */
-  author: string;
+  authors: string[];
 
   /** Path to the book file on the device or filesystem. */
   file: string;

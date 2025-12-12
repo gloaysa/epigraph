@@ -66,7 +66,7 @@ export const BookHighlight = ({ book, entry }: BookHighlightProps) => {
             className='highlight-card__quote'
             color={highlightColor}
             radius='md'
-            cite={`${book.title} - ${book.author}`}
+            cite={`${book.title} - ${book.authors.join(',')}`}
             icon={
               <ThemeIcon
                 className='highlight-card__quote-icon'

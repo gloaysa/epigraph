@@ -33,12 +33,26 @@ type TEntrySchema = z.infer<typeof EntrySchema>;
 export class KoReaderExport {
   static parse(jsonString: string) {
     const data = FileExport.parse(JSON.parse(jsonString));
+    const sortedBooks = this.sortBooks(data.books);
 
     return {
       version: data.version,
       exported_at: data.exported_at,
-      books: data.books.map((b) => new BookResponse(b)),
+      books: sortedBooks.map((b) => new BookResponse(b)),
     };
+  }
+
+  private static sortBooks(books: TBookSchema[]): TBookSchema[] {
+    return [...books]
+      .map((b) => {
+        const entries = [...b.entries].sort((a, b) => b.time - a.time);
+        return { ...b, entries };
+      })
+      .sort((a, b) => {
+        const aLast = a.entries[0]?.time ?? 0;
+        const bLast = b.entries[0]?.time ?? 0;
+        return bLast - aLast;
+      });
   }
 }
 

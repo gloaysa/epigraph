@@ -3,11 +3,11 @@ import '@mantine/core/styles.css';
 import 'primeflex/primeflex.css';
 import './App.css';
 import { AppRoutes } from './app.routes';
-import { MantineProvider } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { USER_ID_KEY } from './constants';
 import { useSetUser } from './hooks/user.mutation';
+import { useRefreshBooks } from './hooks/book.queries';
 
 function App() {
   const [, setLocation] = useLocation();
@@ -16,6 +16,7 @@ function App() {
   const routes = useMemo(() => Object.values(AppRoutes), [AppRoutes]);
 
   const { setUser } = useSetUser();
+  const { refreshBooks } = useRefreshBooks();
 
   useEffect(() => {
     if (!user) {
@@ -25,25 +26,38 @@ function App() {
     }
   }, [user]);
 
-  const queryClient = new QueryClient();
-
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider>
-          <Router>
-            <Switch>
-              {routes.map((route) => (
-                <Route
-                  key={route.url}
-                  path={route.url}
-                  component={route.page}
-                />
-              ))}
-            </Switch>
-          </Router>
-        </MantineProvider>
-      </QueryClientProvider>
+      <nav className='w-full flex mb-2 justify-content-between align-items-center'>
+        <img
+          className='cursor-pointer'
+          src='/icon512_rounded.png'
+          width='50px'
+          onClick={() => setLocation(AppRoutes.BookList.url)}
+        />
+        <div className='flex justify-content-end'>
+          <Button
+            size='xs'
+            variant='subtle'
+            onClick={() => refreshBooks()}
+          >
+            <span className='flex gap-2'>
+              <span>↻</span> Refresh
+            </span>
+          </Button>
+        </div>
+      </nav>
+      <Router>
+        <Switch>
+          {routes.map((route) => (
+            <Route
+              key={route.url}
+              path={route.url}
+              component={route.page}
+            />
+          ))}
+        </Switch>
+      </Router>
     </>
   );
 }

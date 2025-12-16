@@ -45,7 +45,7 @@ export class KoReaderExport {
   private static sortBooks(books: TBookSchema[]): TBookSchema[] {
     return [...books]
       .map((b) => {
-        const entries = [...b.entries].sort((a, b) => b.time - a.time);
+        const entries = [...b.entries].sort((a, b) => a.page - b.page);
         return { ...b, entries };
       })
       .sort((a, b) => {

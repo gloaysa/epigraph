@@ -22,11 +22,11 @@ export const BookHighlightPage = () => {
   }
 
   return (
-    <Center>
+    <div className='book-highlight flex justify-content-center'>
       <BookHighlight
         book={book}
         entry={entry}
       />
-    </Center>
+    </div>
   );
 };

@@ -3,6 +3,7 @@ import type { IBook, IEntry } from '../../interfaces/book.interface';
 import { useMemo } from 'react';
 import { SelectableIcon } from '../SelectableIcon';
 import './BookHightlight.css';
+import { EntryText } from './EntryText';
 
 export interface BookHighlightProps {
   book: IBook;
@@ -46,14 +47,17 @@ export const BookHighlight = ({ book, entry }: BookHighlightProps) => {
       className='highlight-card__body'
       gap='sm'
       align='flex-start'
-      w='100%'
       p='lg'
     >
       <Blockquote
         className='highlight-card__quote'
         color={highlightColor}
         radius='md'
-        cite={`${book.title} - ${book.authors.join(', ')}`}
+        cite={
+          <span>
+            <span className='font-bold'>{book.title} </span> - {book.authors.join(', ')}
+          </span>
+        }
         icon={
           <ThemeIcon
             className='highlight-card__quote-icon'
@@ -65,15 +69,7 @@ export const BookHighlight = ({ book, entry }: BookHighlightProps) => {
           </ThemeIcon>
         }
       >
-        <Text
-          className='book-detail__entry-quote'
-          size='sm'
-          fw={500}
-          lh={1.6}
-          ta='left'
-        >
-          “{entry.text}”
-        </Text>
+        <EntryText text={entry.text} />
       </Blockquote>
 
       {entry.note && (

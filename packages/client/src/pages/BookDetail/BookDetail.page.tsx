@@ -2,14 +2,14 @@ import { Button, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useLocation, useParams } from 'wouter';
 import { ErrorComponent, LoadingComponent, NoBooksFound } from '../../components/Book/BookStatus';
 import type { IBook, IEntry } from '../../interfaces/book.interface';
-import { useGetBookById, useRefreshBooks } from '@/hooks/book.queries';
+import { useGetBookById } from '@/hooks/book.queries';
 import { copyCitationToClipboard } from '@/utils/copy-to-clipboard';
+import { EntryText } from '@/components/Book/EntryText';
 
 export const BookDetailPage = () => {
   const [, setLocation] = useLocation();
   const { bookId } = useParams<{ bookId: string }>();
   const { book, bookLoading, bookError } = useGetBookById(bookId ?? '');
-  const { refreshBooks } = useRefreshBooks();
 
   if (bookLoading) {
     return <LoadingComponent />;
@@ -32,19 +32,6 @@ export const BookDetailPage = () => {
       className='book-list-page'
       gap='sm'
     >
-      <div className='flex justify-content-end'>
-        <Button
-          size='xs'
-          variant='subtle'
-          onClick={() => refreshBooks()}
-          loading={bookLoading}
-        >
-          <span className='flex gap-2'>
-            <span>↻</span> Refresh
-          </span>
-        </Button>
-      </div>
-
       <Stack
         className='book-detail__header'
         gap={4}
@@ -86,12 +73,10 @@ export const BookDetailPage = () => {
         w='100%'
       >
         {book.entries.map((entry) => (
-          <UnstyledButton
+          <section
             key={`${entry.pn_xp}-${entry.time}`}
-            type='button'
+            className='book-item w-full'
             onClick={() => handleSelectBook(book, entry)}
-            w='100%'
-            className={`book-item`}
           >
             <Paper
               className='book-detail__entry'
@@ -106,7 +91,7 @@ export const BookDetailPage = () => {
                 gap='xs'
                 align='flex-start'
               >
-                <div className='book-detail__entry-meta flex gap-2 w-full align-items-center justify-content-between'>
+                <div className='book-detail__entry-header flex gap-2 w-full align-items-center justify-content-between'>
                   <div className='flex gap-2'>
                     <Text
                       className='book-detail__entry-chapter'
@@ -114,7 +99,7 @@ export const BookDetailPage = () => {
                       c='dimmed'
                       ta='left'
                     >
-                      {entry.chapter}
+                      <span className='font-bold'>{entry.chapter}</span>
                     </Text>
                     <Text
                       className='book-detail__entry-page'
@@ -128,42 +113,32 @@ export const BookDetailPage = () => {
 
                   <div className='flex gap-2'>
                     <Button
-                      size='xs'
+                      size='lg'
                       variant='subtle'
                       onClick={(e) => {
                         e.stopPropagation();
                         copyCitationToClipboard(entry.text, book.authors.join(', '), book.title);
                       }}
                     >
-                      <span className='flex gap-2'>
-                        <span>📋</span>
-                      </span>
+                      <span>📋</span>
                     </Button>
                   </div>
                 </div>
 
-                <Text
-                  className='book-detail__entry-quote'
-                  size='sm'
-                  fw={500}
-                  lh={1.6}
-                  ta='left'
-                >
-                  “{entry.text}”
-                </Text>
+                <EntryText text={entry.text} />
 
                 {!!entry.note && (
                   <Text
                     className='book-item__chip book-item__chip--notes'
-                    size='xs'
+                    size='lg'
                     variant='outline'
                   >
-                    🗒️
+                    📝
                   </Text>
                 )}
               </Stack>
             </Paper>
-          </UnstyledButton>
+          </section>
         ))}
       </Stack>
     </Stack>

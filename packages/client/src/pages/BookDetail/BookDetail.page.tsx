@@ -1,4 +1,4 @@
-import { Button, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
+import { Button, Paper, Stack, Text } from '@mantine/core';
 import { useLocation, useParams } from 'wouter';
 import { ErrorComponent, LoadingComponent, NoBooksFound } from '../../components/Book/BookStatus';
 import type { IBook, IEntry } from '../../interfaces/book.interface';

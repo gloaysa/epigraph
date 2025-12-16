@@ -1,6 +1,5 @@
 import { useParams } from 'wouter';
 import { ErrorComponent, LoadingComponent, NoBooksFound } from '../../components/Book/BookStatus';
-import { Center } from '@mantine/core';
 import { BookHighlight } from '../../components/Book/BookHightlight';
 import { useGetBookById } from '@/hooks/book.queries';
 
